@@ -53,7 +53,7 @@ def main():
         chain = LLMChain(llm=llm, prompt=prompt_template)
 
         result = chain.invoke(input=pages[0].page_content)
-        print(result)
+        #print(result)
         entities = result['text'].strip().split("\n")
         table_data = [line.split("|") for line in entities]
         #st.json(table_data)
