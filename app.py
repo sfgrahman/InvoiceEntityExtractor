@@ -36,9 +36,6 @@ def main():
         
         Use this format:
         Course | Number | Title | Attempted | Earned | Grade
-        Expected output:
-        ATHLETIC | 182| YOGA|1.00|1.00|S
-        
         """
         #Course | Number | Title | Attempted | Earned | Grade
         prompt_template = PromptTemplate(input_variables=["pages"], template=template)
