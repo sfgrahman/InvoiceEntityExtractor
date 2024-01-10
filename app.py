@@ -52,9 +52,9 @@ def main():
         prompt_template = PromptTemplate(input_variables=["pages"], template=template)
         chain = LLMChain(llm=llm, prompt=prompt_template)
 
-        result = chain.run(pages=pages[0].page_content)
-        
-        entities = result.strip().split("\n")
+        result = chain.invoke(input=pages[0].page_content)
+        print(result)
+        entities = result['text'].strip().split("\n")
         table_data = [line.split("|") for line in entities]
         #st.json(table_data)
         #print(table_data)
