@@ -8,7 +8,7 @@ from langchain.llms.openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv(override=True)
 import pandas as pd
-columns = ['Course', 'Number', 'Title','Attempted','Earned','Grade']
+columns = ['Course','Number','Title','Attempted','Earned','Grade']
 
 def convert_df(table_data):
     df = pd.DataFrame(table_data)
