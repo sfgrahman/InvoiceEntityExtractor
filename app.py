@@ -1,6 +1,6 @@
 import streamlit as st
 from tempfile import NamedTemporaryFile
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 #from langchain.llms import CTransformers
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -31,11 +31,16 @@ def main():
         llm = OpenAI(temperature=0.1, max_tokens=1024)
         #llm = CTransformers(model="llama-2-7b-chat.ggmlv3.q4_0.bin",model_type="llama",config={'max_new_tokens':128,'temperature':0.01})
         
-        template = """Create a six-columns table with the Course Name, Number(beside course), Title, Attempted, Earned, Grade for each line of text below. No header.
+        template = """Extract all and Create a six-columns table with the Course Name, Number(beside course), Title, Attempted, Earned, Grade for each line of text below.
           {pages}
-        use this format:
+        
+        Use this format:
         Course | Number | Title | Attempted | Earned | Grade
+        Expected output:
+        ATHLETIC | 182| YOGA|1.00|1.00|S
+        
         """
+        #Course | Number | Title | Attempted | Earned | Grade
         prompt_template = PromptTemplate(input_variables=["pages"], template=template)
         chain = LLMChain(llm=llm, prompt=prompt_template)
 
