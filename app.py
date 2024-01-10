@@ -10,7 +10,6 @@ load_dotenv(override=True)
 import pandas as pd
 columns = ['Course', 'Number', 'Title','Attempted','Earned','Grade']
 
-@st.cache_data
 def convert_df(table_data):
     df = pd.DataFrame(table_data)
     return df.to_csv(header=columns, index=False).encode('utf-8')
