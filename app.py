@@ -7,6 +7,15 @@ from langchain.prompts import PromptTemplate
 from langchain.llms.openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv(override=True)
+import pandas as pd
+columns = ['Course', 'Number', 'Title','Attempted','Earned','Grade']
+
+@st.cache_data
+def convert_df(table_data):
+    df = pd.DataFrame(table_data)
+    return df.to_csv(header=columns, index=False).encode('utf-8')
+
+
 
 def main():
     st.title("PDF Entity Extractor:books:")
@@ -27,7 +36,9 @@ def main():
         # for page in pages:
         #     st.write(page.page_content)
         #     st.write("")
-        st.write(pages[0].page_content)
+        
+        #st.write(pages[0].page_content)
+       
         llm = OpenAI(temperature=0.1, max_tokens=1024)
         #llm = CTransformers(model="llama-2-7b-chat.ggmlv3.q4_0.bin",model_type="llama",config={'max_new_tokens':128,'temperature':0.01})
         
@@ -43,11 +54,22 @@ def main():
 
         result = chain.run(pages=pages[0].page_content)
         
-        st.write("Extracted entities:")
         entities = result.strip().split("\n")
         table_data = [line.split("|") for line in entities]
-        print(entities)
-        st.table(table_data)
+        #st.json(table_data)
+        #print(table_data)
+        #df = pd.DataFrame(table_data)
+        #df.to_excel("output.xlsx",index=False)
+        if table_data:
+            st.write(f"Extracted data from first pages")
+            csv = convert_df(table_data)
+            st.download_button("Press to Download",
+                           csv,
+                           "ouput_file.csv",
+                           "text/csv",
+                           key='download-csv')
+            #st.write("Extracted entities:")
+            st.table(table_data)
 
 if __name__ == "__main__":
     main()
