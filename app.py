@@ -8,11 +8,11 @@ from langchain.llms.openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv(override=True)
 import pandas as pd
-columns = ['Course','Number','Title','Attempted','Earned','Grade']
+#columns = ['Course','Number','Title','Attempted','Earned','Grade']
 
 def convert_df(table_data):
     df = pd.DataFrame(table_data)
-    return df.to_csv(header=columns, index=False).encode('utf-8')
+    return df.to_csv(index=False).encode('utf-8')
 
 
 
@@ -41,7 +41,7 @@ def main():
         llm = OpenAI(temperature=0.1, max_tokens=1024)
         #llm = CTransformers(model="llama-2-7b-chat.ggmlv3.q4_0.bin",model_type="llama",config={'max_new_tokens':128,'temperature':0.01})
         
-        template = """Extract all and Create a six-columns table with the Course Name, Number(beside course), Title, Attempted, Earned, Grade for each line of text below.
+        template = """Extract all and Create a six-table with the Course Name, Number(beside Course), Title or Description, Attempted or Attemted Credits, Earned or Earned Credits, Grade, Grade Points for each line of text below, start from Beginning of Graduate/Academic Record. No Header.
           {pages}
         
         Use this format:
